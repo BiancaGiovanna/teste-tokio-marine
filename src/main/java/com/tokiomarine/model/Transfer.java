@@ -10,72 +10,71 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Transfer {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private String contaOrigem;
-	private String contaDestino;
-	private BigDecimal valorTransferencia;
-	private BigDecimal taxa;
-	private LocalDate dataTransferencia;
-	private LocalDate dataAgendamento;
+    private String originAccount;
+    private String destinationAccount;
+    private BigDecimal transferAmount;
+    private BigDecimal fee;
+    private LocalDate transferDate;
+    private LocalDate schedulingDate;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getContaOrigem() {
-		return contaOrigem;
-	}
+    public String getOriginAccount() {
+        return originAccount;
+    }
 
-	public void setContaOrigem(String contaOrigem) {
-		this.contaOrigem = contaOrigem;
-	}
+    public void setOriginAccount(String originAccount) {
+        this.originAccount = originAccount;
+    }
 
-	public String getContaDestino() {
-		return contaDestino;
-	}
+    public String getDestinationAccount() {
+        return destinationAccount;
+    }
 
-	public void setContaDestino(String contaDestino) {
-		this.contaDestino = contaDestino;
-	}
+    public void setDestinationAccount(String destinationAccount) {
+        this.destinationAccount = destinationAccount;
+    }
 
-	public BigDecimal getValorTransferencia() {
-		return valorTransferencia;
-	}
+    public BigDecimal getTransferAmount() {
+        return transferAmount;
+    }
 
-	public void setValorTransferencia(BigDecimal valorTransferencia) {
-		this.valorTransferencia = valorTransferencia;
-	}
+    public void setTransferAmount(BigDecimal transferAmount) {
+        this.transferAmount = transferAmount;
+    }
 
-	public BigDecimal getTaxa() {
-		return taxa;
-	}
+    public BigDecimal getFee() {
+        return fee;
+    }
 
-	public void setTaxa(BigDecimal taxa) {
-		this.taxa = taxa;
-	}
+    public void setFee(BigDecimal fee) {
+        this.fee = fee;
+    }
 
-	public LocalDate getDataTransferencia() {
-		return dataTransferencia;
-	}
+    public LocalDate getTransferDate() {
+        return transferDate;
+    }
 
-	public void setDataTransferencia(LocalDate dataTransferencia) {
-		this.dataTransferencia = dataTransferencia;
-	}
+    public void setTransferDate(LocalDate transferDate) {
+        this.transferDate = transferDate;
+    }
 
-	public LocalDate getDataAgendamento() {
-		return dataAgendamento;
-	}
+    public LocalDate getSchedulingDate() {
+        return schedulingDate;
+    }
 
-	public void setDataAgendamento(LocalDate dataAgendamento) {
-		this.dataAgendamento = dataAgendamento;
-	}
-
+    public void setSchedulingDate(LocalDate schedulingDate) {
+        this.schedulingDate = schedulingDate;
+    }
 }
