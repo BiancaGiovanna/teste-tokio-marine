@@ -4,7 +4,11 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.tokiomarine.model.Transfer;
+import com.tokiomarine.repository.TransferRepository;
 
 @Service
 public class FeeService {
@@ -19,7 +23,7 @@ public class FeeService {
 		RATE_PER_INTERVAL.put(40, new BigDecimal("0.017"));
 	}
 
-	public BigDecimal calcularTaxaTransferencia(int dias, BigDecimal valorTransferencia) {
+	public BigDecimal calculateTransferRate(int dias, BigDecimal valorTransferencia) {
 		for (Map.Entry<Integer, BigDecimal> entry : RATE_PER_INTERVAL.entrySet()) {
 			if (dias <= entry.getKey()) {
 				if (entry.getValue().compareTo(BigDecimal.ONE) < 0) {
@@ -31,5 +35,17 @@ public class FeeService {
 		}
 
 		throw new IllegalArgumentException("Taxa não aplicável para a data de transferência.");
+	}
+
+	@Autowired
+	private TransferRepository transferRepository;
+
+	public void scheduleTransfer(Transfer transfer) {
+		try {
+			transferRepository.save(transfer);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Erro ao agendar a transferência.");
+		}
 	}
 }
