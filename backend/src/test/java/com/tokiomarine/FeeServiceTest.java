@@ -25,7 +25,7 @@ public class FeeServiceTest {
 	@Test
 	public void testCalculateTransferRate() {
 		FeeService feeService = new FeeService();
-		int dias = 45;
+		int dias = 50;
 		BigDecimal transferAmount = new BigDecimal("100.00");
 
 		BigDecimal result = feeService.calculateTransferRate(dias, transferAmount);

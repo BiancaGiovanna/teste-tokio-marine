@@ -36,7 +36,11 @@ public class FeeService {
 	public BigDecimal calculateTransferRate(int dias, BigDecimal valorTransferencia) {
 		for (Map.Entry<Integer, BigDecimal> entry : RATE_PER_INTERVAL.entrySet()) {
 			if (dias <= entry.getKey()) {
-				return valorTransferencia.multiply(entry.getValue());
+				if (entry.getValue().compareTo(BigDecimal.ONE) < 0) {
+					return valorTransferencia.multiply(entry.getValue());
+				} else {
+					return entry.getValue();
+				}
 			}
 		}
 
