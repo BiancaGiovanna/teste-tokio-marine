@@ -3,16 +3,23 @@
     <table class="table table-striped table-bordered">
       <thead class="table-dark">
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nome</th>
-          <th scope="col">E-mail</th>
+          <!-- <th scope="col">#</th> -->
+          <th scope="col">Conta de origem</th>
+          <th scope="col">Conta de destino</th>
+          <th scope="col">Valor transferido</th>
+          <th scope="col">Valor da taxa aplicada</th>
+          <th scope="col">Data da transferencia</th>
+          <th scope="col">Data de agendamento</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(user, index) in users" :key="index">
-          <th scope="row">{{ index + 1 }}</th>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
+        <tr v-for="transfer in formattedTransfers" :key="transfer.id">
+          <td>{{ transfer.originAccount }}</td>
+          <td>{{ transfer.destinationAccount }}</td>
+          <td>R$ {{ transfer.transferAmount }}</td>
+          <td>R$ {{ calculateFee(transfer).toFixed(2) }}</td>
+          <td>{{ transfer.transferDate }}</td>
+          <td>{{ transfer.schedulingDate }}</td>
         </tr>
       </tbody>
     </table>
@@ -20,21 +27,38 @@
 </template>
 
 <script lang="ts">
+import { Transfer } from '@/interfaces/Transfer';
 import { defineComponent } from 'vue';
-
-interface User {
-  name: string;
-  email: string;
-}
+import { format } from 'date-fns';
 
 export default defineComponent({
   name: 'TableComponent',
   props: {
-    users: Array as () => User[],
+    transfers: Array as () => Transfer[],
+  },
+  computed: {
+    formattedTransfers() {
+      if (this.transfers) {
+        return this.transfers.map(transfer => ({
+          ...transfer,
+          transferDate: this.formatDate(transfer.transferDate),
+          schedulingDate: this.formatDate(transfer.schedulingDate),
+        }));
+      }
+      return [];
+    },
+  },
+  methods: {
+    formatDate(date: string) {
+      return format(new Date(date), 'dd/MM/yyyy');
+    },
+    calculateFee(transfer: Transfer) {
+      const fee = transfer.fee || 0;
+      return (fee / 100) * transfer.transferAmount;
+    },
   },
 });
 </script>
-
 <style scoped>
 .table-container {
   width: 90%;

@@ -1,19 +1,17 @@
-<!-- HomeView.vue -->
+  <!-- HomeView.vue -->
 <template>
   <main class="bg-light">
-    <h1>Lista de Usuários</h1>
-    <TableComponent :users="users" />
+    <h1>Histórico de agendamentos</h1>
+    <TableComponent :transfers="transfers" />
   </main>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import axios from 'axios';
 import TableComponent from '@/components/TableComponent.vue';
-
-interface User {
-  name: string;
-  email: string;
-}
+import { Transfer } from '@/interfaces/Transfer';
+import urlAPI from '@/utils/urlAPI';
 
 export default defineComponent({
   name: 'HomeView',
@@ -22,16 +20,26 @@ export default defineComponent({
   },
   data() {
     return {
-      users: [
-        { name: 'Usuário 1', email: 'usuario1@example.com' },
-        { name: 'Usuário 2', email: 'usuario2@example.com' }
-      ] as User[]
+      transfers: [] as Transfer[],
     };
   },
+  mounted() {
+    this.getTransfers();
+  },
+  methods: {
+    async getTransfers() {
+      try {
+        const response = await axios.get(`${urlAPI}/all`);
+        this.transfers = response.data;
+      } catch (error) {
+        console.error('Erro ao obter transferências:', error);
+      }
+    },
+  }
 });
 </script>
 
-<style scoped>
+<style scoped >
 main {
   height: 88vh;
   display: flex;
