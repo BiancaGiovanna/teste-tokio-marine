@@ -14,7 +14,15 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
+  "_moduleAliases": {
+    "@entities-services": "dist/modules/database/services",
+    "@entities": "dist/entities",
+    "@modules": [
+      "dist/modules"
+    ]
+  },
   "dependencies": {
+    "module-alias": "^2.2.3",
     "vue": "^3.3.4"
   },
   "devDependencies": {
