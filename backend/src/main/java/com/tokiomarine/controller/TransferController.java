@@ -1,7 +1,6 @@
 package com.tokiomarine.controller;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -31,9 +30,7 @@ public class TransferController {
 	public ResponseEntity<String> scheduleTransfer(@RequestBody Transfer transfer) {
 		try {
 			if (transfer.getTransferDate() != null && transfer.getSchedulingDate() != null) {
-				LocalDate currentDate = LocalDate.now();
-				long daysDifference = ChronoUnit.DAYS.between(currentDate, transfer.getTransferDate());
-
+				long daysDifference = ChronoUnit.DAYS.between(transfer.getSchedulingDate(), transfer.getTransferDate());
 				BigDecimal fee = feeService.calculateTransferRate((int) daysDifference, transfer.getTransferAmount());
 				transfer.setFee(fee);
 				transferRepository.save(transfer);

@@ -1,8 +1,6 @@
 package com.tokiomarine.service;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +13,24 @@ public class FeeService {
 	public FeeService() {
 	}
 
-	private static final Map<Integer, BigDecimal> RATE_PER_INTERVAL = new HashMap<>();
-
-	static {
-		RATE_PER_INTERVAL.put(0, new BigDecimal("0.025")); // 2.5%
-		RATE_PER_INTERVAL.put(10, BigDecimal.ZERO); // 0.0%
-		RATE_PER_INTERVAL.put(20, new BigDecimal("0.082")); // 8.2%
-		RATE_PER_INTERVAL.put(30, new BigDecimal("0.069")); // 6.9%
-		RATE_PER_INTERVAL.put(40, new BigDecimal("0.047")); // 4.7%
-		RATE_PER_INTERVAL.put(50, new BigDecimal("0.017")); // 1.7%
+	public BigDecimal calculateTransferRate(int dias, BigDecimal valorTransferencia) {
+		if (dias <= 0) {
+			BigDecimal taxa = new BigDecimal("0.025"); // 2.5%
+			BigDecimal taxaFixa = new BigDecimal("3.00"); // R$3.00
+			return valorTransferencia.multiply(taxa).add(taxaFixa);
+		} else if (dias <= 10) {
+			return new BigDecimal("12.00");
+		} else if (dias <= 20) {
+			return valorTransferencia.multiply(new BigDecimal("0.082")); // 8.2%
+		} else if (dias <= 30) {
+			return valorTransferencia.multiply(new BigDecimal("0.069")); // 6.9%
+		} else if (dias <= 40) {
+			return valorTransferencia.multiply(new BigDecimal("0.047")); // 4.7%
+		} else if (dias <= 50) {
+			return valorTransferencia.multiply(new BigDecimal("0.017")); // 1.7%
+		} else {
+			throw new IllegalArgumentException("Taxa não aplicável para a data de transferência.");
+		}
 	}
 
 	@Autowired
@@ -31,20 +38,6 @@ public class FeeService {
 
 	public FeeService(TransferRepository transferRepository) {
 		this.transferRepository = transferRepository;
-	}
-
-	public BigDecimal calculateTransferRate(int dias, BigDecimal valorTransferencia) {
-		for (Map.Entry<Integer, BigDecimal> entry : RATE_PER_INTERVAL.entrySet()) {
-			if (dias <= entry.getKey()) {
-				if (entry.getValue().compareTo(BigDecimal.ONE) < 0) {
-					return valorTransferencia.multiply(entry.getValue());
-				} else {
-					return entry.getValue();
-				}
-			}
-		}
-
-		throw new IllegalArgumentException("Taxa não aplicável para a data de transferência.");
 	}
 
 	public void scheduleTransfer(Transfer transfer) {
