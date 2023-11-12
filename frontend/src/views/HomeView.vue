@@ -2,7 +2,11 @@
 <template>
   <main class="bg-light">
     <h1>Histórico de agendamentos</h1>
+
     <TableComponent :transfers="transfers" />
+    <div>
+      <router-link to="/insert" class="btn btn-success mt-3">Novo agendamento</router-link>
+    </div>
   </main>
 </template>
 
@@ -42,6 +46,7 @@ export default defineComponent({
 <style scoped >
 main {
   height: 88vh;
+  /* margin-bottom: 15px; */
   display: flex;
   align-items: center;
   flex-direction: column;
