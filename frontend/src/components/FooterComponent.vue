@@ -2,7 +2,9 @@
 <template>
   <footer class="footer mt-auto py-3 bg-dark ">
     <div class="container ">
-      <span class="text-light">© 2023 Meu Aplicativo. Todos os direitos reservados.</span>
+      <span class="text-light">© 2023 Agendamento de transferências. Desenvolvido por
+        <a target="_blank" href="https://www.linkedin.com/in/bianca-giovanna/">Bianca Gomes 💜</a>.
+      </span>
     </div>
   </footer>
 </template>
