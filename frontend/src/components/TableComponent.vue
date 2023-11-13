@@ -12,14 +12,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="transfer in formattedTransfers" :key="transfer.id">
+        <tr v-for="transfer in transfers" :key="transfer.id">
           <td>{{ transfer.originAccount }}</td>
           <td>{{ transfer.destinationAccount }}</td>
           <td>R$ {{ transfer.transferAmount }}</td>
           <td v-if="transfer.fee !== null">R$ {{ transfer.fee }}</td>
           <td v-else>-</td>
-          <td>{{ transfer.schedulingDate }}</td>
-          <td>{{ transfer.transferDate }}</td>
+          <td>{{ formatDate(transfer.schedulingDate) }}</td>
+          <td>{{ formatDate(transfer.transferDate) }}</td>
         </tr>
       </tbody>
     </table>
@@ -29,39 +29,23 @@
 <script lang="ts">
 import { Transfer } from '@/interfaces/Transfer';
 import { defineComponent } from 'vue';
-// import { format } from 'date-fns-tz';
-import { format, parseISO } from 'date-fns';
 
 export default defineComponent({
   name: 'TableComponent',
   props: {
     transfers: Array as () => Transfer[],
   },
-  computed: {
-    formattedTransfers() {
-      if (this.transfers) {
-        return this.transfers.map(transfer => ({
-          ...transfer,
-          transferDate: this.formatDate(transfer.transferDate),
-          schedulingDate: this.formatDate(transfer.schedulingDate),
-        }));
-      }
-      return [];
-    },
-  },
+
   methods: {
-    formatDate(date: string | Date | undefined | null) {
-      if (date instanceof Date) {
-        // Converte para UTC antes de formatar
-        const utcDate = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-        return format(utcDate, 'dd/MM/yyyy');
-      } else if (date && typeof date === 'string') {
-        const parsedDate = parseISO(date); // Converte para objeto de data
-        const utcDate = new Date(Date.UTC(parsedDate.getUTCFullYear(), parsedDate.getUTCMonth(), parsedDate.getUTCDate()));
-        return format(utcDate, 'dd/MM/yyyy');
+    formatDate(data: string) {
+      if (data) {
+        const date = new Date(data);
+        const day = (date.getDate() + 1).toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
       }
-      // Retorna vazio ou outra string indicando que a data não está disponível
-      return '';
+      return 'Data inválida';
     },
   },
 });
