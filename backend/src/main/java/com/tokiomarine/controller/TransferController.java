@@ -37,11 +37,16 @@ public class TransferController {
 				if (transferDate.isBefore(currentDate)) {
 					return ResponseEntity.badRequest().body("Transfer date cannot be earlier than today.");
 				}
-
+				if (transfer.getOriginAccount().equals(transfer.getDestinationAccount())) {
+					return ResponseEntity.badRequest().body("Source and target account numbers cannot be the same.");
+				}
+				
 				transfer.setSchedulingDate(currentDate);
 				long daysDifference = ChronoUnit.DAYS.between(transfer.getSchedulingDate(), transferDate);
+
 				BigDecimal fee = feeService.calculateTransferRate((int) daysDifference, transfer.getTransferAmount());
 				transfer.setFee(fee);
+
 				transferRepository.save(transfer);
 				return ResponseEntity.ok("Transfer scheduled successfully!");
 			} else {
