@@ -53,6 +53,7 @@ export default defineComponent({
       destinationAccount: '',
       transferAmount: 0,
       transferDate: '',
+      schedulingDate: '',
     });
     const isOriginAccountValid = ref(true);
     const isDestinationAccountValid = ref(true);
