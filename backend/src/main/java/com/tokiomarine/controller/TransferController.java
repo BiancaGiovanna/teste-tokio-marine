@@ -47,7 +47,7 @@ public class TransferController {
 				BigDecimal fee = feeService.calculateTransferRate((int) daysDifference, transfer.getTransferAmount());
 				transfer.setFee(fee);
 
-				transferRepository.save(transfer);
+				feeService.scheduleTransfer(transfer);
 				return ResponseEntity.ok("Transfer scheduled successfully!");
 			} else {
 				return ResponseEntity.badRequest().body("Transfer date or scheduling date is null.");
