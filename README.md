@@ -11,6 +11,7 @@ O projeto é estruturado usando uma arquitetura de cliente-servidor, com o front
 ## Ferramentas Utilizadas
 
 - **Vue.js (v3.0.0):** Framework JavaScript progressivo para construção de interfaces de usuário.
+- **Bootstrap 5** Bootstrap é um framework front-end que fornece estruturas de CSS para a criação de sites e aplicações responsivas de forma rápida e simples
 - **Spring Boot (v3.1.5):** Framework Java para desenvolvimento de aplicativos Java rapidamente.
 - **H2 Database :** Banco de dados SQL embutido para armazenar transferências.
 - **Maven (v4.0.0):** Ferramenta de gerenciamento de projetos utilizada para construir e gerenciar dependências no backend.
@@ -76,5 +77,6 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 - Tomei a decisão de ultilizar o TS mas acabou complicando pois muitos módulos simplesmente não suportam o mesmo, então ocorreu alguns travamentos e possiveis repetições de código
 - Busquei uma abordagem super simples para forcar no que realmente importava, acredito que o backend estaja em uma qualidade aceitavel para um teste simples
 - Os testes foram escritos apenas no backend pois não obtive experiencia com testes em front-end (por mais que sim tetaria implementar nesse projeto porem por conta do problema do TS+VueJS acabei perdendo muito tempo em coisas que em outro framework como ReactJS não aconteceria poís é oque mais domino na questão de front-end)
-- Acredito atender 80% dos requisitos da vaga, oque procuro no momento é um ambiente onde possa consertar meus erros e aprender novas tecnologias e melhorar meus conhecimentos atuais!
+- Acredito atender 80% dos requisitos da vaga, pois tenho conhecimentos como: Java; Spring MVC; Spring Data;Spring Boot; Hibernate/JPA; Oracle; Bootstrap;
+- Oque procuro no momento é um ambiente onde possa aprender novas tecnologias e melhorar meus conhecimentos atuais!
 - Obrigada pela oportunidade e espero ter uma entrevista em breve!
