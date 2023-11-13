@@ -29,10 +29,10 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 1. **Clone o repositório:**
 
     ```bash
-    git clone https://github.com/seu-usuario/seu-projeto.git
+    git clone https://github.com/BiancaGiovanna/teste-tokio-marine.git
     ```
 
-2. **Para rodar o projeto Backend:**
+2. **Para rodar o Backend com Maven:**
 
     - Navegue até o diretório `backend`
 
@@ -75,6 +75,6 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 - Tomei a decisão de ultilizar o TS mas acabou complicando pois muitos módulos simplesmente não suportam o mesmo, então ocorreu alguns travamentos e possiveis repetições de código
 - Busquei uma abordagem super simples para forcar no que realmente importava, acredito que o backend estaja em uma qualidade aceitavel para um teste simples
 - Os testes foram escritos apenas no backend pois não obtive experiencia com testes em front-end (por mais que sim tetaria implementar nesse projeto porem por conta do problema do TS+VueJS acabei perdendo muito tempo em coisas que em outro framework como ReactJS não aconteceria poís é oque mais domino na questão de front-end)
-- Acredito atender 80% dos requisitos da vaga, pois tenho conhecimentos como: Java; Spring MVC; Spring Data;Spring Boot; Hibernate/JPA; Oracle; Bootstrap;
+- Acredito atender 80% dos requisitos da vaga, pois tenho conhecimentos como: Java; Spring MVC; Spring Data;Spring Boot; Hibernate/JPA; Oracle; Angular V9+; Bootstrap;
 - Oque procuro no momento é um ambiente onde possa aprender novas tecnologias e melhorar meus conhecimentos atuais!
 - Obrigada pela oportunidade e espero ter uma entrevista em breve!

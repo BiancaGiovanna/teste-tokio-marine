@@ -83,12 +83,11 @@ public class TransferControllerTest {
         transfer.setTransferDate(LocalDate.now().plusDays(1));
         transfer.setSchedulingDate(LocalDate.now());
         transfer.setTransferAmount(new BigDecimal("100.00"));
-        transfer.setOriginAccount("123");
-        transfer.setDestinationAccount("123"); // Contas iguais
+        transfer.setOriginAccount("1234567908");
+        transfer.setDestinationAccount("1234567890"); // Contas iguais
 
         ResponseEntity<String> responseEntity = transferController.scheduleTransfer(transfer);
 
-        // Verifica se o método save não foi chamado no transferRepository
         verify(transferRepository, times(0)).save(any(Transfer.class));
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
