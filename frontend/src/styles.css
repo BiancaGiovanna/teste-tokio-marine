@@ -1,1 +1,9 @@
 @import '~bootstrap/dist/css/bootstrap.css';
+@import 'ngx-bootstrap/datepicker/bs-datepicker.css';
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 84.5vh;
+}
