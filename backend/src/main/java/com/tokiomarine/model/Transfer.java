@@ -10,71 +10,71 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Transfer {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    private String originAccount;
-    private String destinationAccount;
-    private BigDecimal transferAmount;
-    private BigDecimal fee;
-    private LocalDate transferDate;
-    private LocalDate schedulingDate;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    public Long getId() {
-        return id;
-    }
+	private String originAccount;
+	private String destinationAccount;
+	private BigDecimal transferAmount;
+	private BigDecimal fee;
+	private LocalDate transferDate;
+	private LocalDate schedulingDate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getOriginAccount() {
-        return originAccount;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setOriginAccount(String originAccount) {
-        this.originAccount = originAccount;
-    }
+	public String getOriginAccount() {
+		return originAccount;
+	}
 
-    public String getDestinationAccount() {
-        return destinationAccount;
-    }
+	public void setOriginAccount(String originAccount) {
+		this.originAccount = originAccount;
+	}
 
-    public void setDestinationAccount(String destinationAccount) {
-        this.destinationAccount = destinationAccount;
-    }
+	public String getDestinationAccount() {
+		return destinationAccount;
+	}
 
-    public BigDecimal getTransferAmount() {
-        return transferAmount;
-    }
+	public void setDestinationAccount(String destinationAccount) {
+		this.destinationAccount = destinationAccount;
+	}
 
-    public void setTransferAmount(BigDecimal transferAmount) {
-        this.transferAmount = transferAmount;
-    }
+	public BigDecimal getTransferAmount() {
+		return transferAmount;
+	}
 
-    public BigDecimal getFee() {
-        return fee;
-    }
+	public void setTransferAmount(BigDecimal transferAmount) {
+		this.transferAmount = transferAmount;
+	}
 
-    public void setFee(BigDecimal fee) {
-        this.fee = fee;
-    }
+	public BigDecimal getFee() {
+		return fee;
+	}
 
-    public LocalDate getTransferDate() {
-        return transferDate;
-    }
+	public void setFee(BigDecimal fee) {
+		this.fee = fee;
+	}
 
-    public void setTransferDate(LocalDate transferDate) {
-        this.transferDate = transferDate;
-    }
+	public LocalDate getTransferDate() {
+		return transferDate;
+	}
 
-    public LocalDate getSchedulingDate() {
-        return schedulingDate;
-    }
+	public void setTransferDate(LocalDate transferDate) {
+		this.transferDate = transferDate;
+	}
 
-    public void setSchedulingDate(LocalDate schedulingDate) {
-        this.schedulingDate = schedulingDate;
-    }
+	public LocalDate getSchedulingDate() {
+		return schedulingDate;
+	}
+
+	public void setSchedulingDate(LocalDate schedulingDate) {
+		this.schedulingDate = schedulingDate;
+	}
 }

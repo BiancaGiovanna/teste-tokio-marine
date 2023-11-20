@@ -5,16 +5,21 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tokiomarine.TransferValidator;
 import com.tokiomarine.model.Transfer;
 import com.tokiomarine.repository.TransferRepository;
 
 @Service
 public class FeeService {
-	public FeeService() {
-	}
+
+	@Autowired
+	private TransferRepository transferRepository;
+
+	@Autowired
+	private TransferValidator transferValidator;
 
 	public BigDecimal calculateTransferRate(int dias, BigDecimal valorTransferencia) {
-		if (dias <= 0) {
+		if (dias >= 0) {
 			BigDecimal taxa = new BigDecimal("0.025"); // 2.5%
 			BigDecimal taxaFixa = new BigDecimal("3.00"); // R$3.00
 			return valorTransferencia.multiply(taxa).add(taxaFixa);
@@ -33,19 +38,14 @@ public class FeeService {
 		}
 	}
 
-	@Autowired
-	private TransferRepository transferRepository;
-
-	public FeeService(TransferRepository transferRepository) {
-		this.transferRepository = transferRepository;
-	}
-
 	public void scheduleTransfer(Transfer transfer) {
 		try {
+			transferValidator.validateTransferForScheduling(transfer);
+
 			transferRepository.save(transfer);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("Erro ao agendar a transferência.");
+		} catch (Exception error) {
+			error.printStackTrace();
+			throw new RuntimeException("Erro ao agendar a transfêrencia.");
 		}
 	}
 }
