@@ -20,7 +20,7 @@ O projeto é estruturado usando uma arquitetura de cliente-servidor, com o front
 
 Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
 
-- Java Development Kit (JDK)
+- Java Development Kit (JDK) 17
 - NodeJs
 - Angular CLI
 
