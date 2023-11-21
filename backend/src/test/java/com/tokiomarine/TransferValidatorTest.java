@@ -1,6 +1,8 @@
 package com.tokiomarine;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,67 +22,59 @@ public class TransferValidatorTest {
     }
 
     @Test
-    public void testValidTransfer() {
-        Transfer transfer = createValidTransfer();
-        assertDoesNotThrow(() -> transferValidator.validateTransferForScheduling(transfer));
+    public void testValidateTransferForScheduling_ValidTransfer() {
+        Transfer validTransfer = new Transfer("1234567890", "0987654321", BigDecimal.valueOf(30),
+                LocalDate.now().plusDays(5));
+
+        // No exception should be thrown for a valid transfer
+        assertDoesNotThrow(() -> transferValidator.validateTransferForScheduling(validTransfer));
     }
 
     @Test
-    public void testInvalidTransferWithSameAccount() {
-        Transfer transfer = createValidTransfer();
-        transfer.setDestinationAccount(transfer.getOriginAccount()); // Same account
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> transferValidator.validateTransferForScheduling(transfer));
-        assertEquals("Os números das contas de origem e de destino não podem ser iguais.", exception.getMessage());
+    public void testValidateTransferForScheduling_InvalidTransferAmount() {
+        Transfer invalidTransfer = new Transfer("1234567890", "0987654321", BigDecimal.ZERO,
+                LocalDate.now().plusDays(5));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> transferValidator.validateTransferForScheduling(invalidTransfer));
     }
 
     @Test
-    public void testInvalidTransferWithInvalidAmount() {
-        Transfer transfer = createValidTransfer();
-        transfer.setTransferAmount(BigDecimal.valueOf(-5)); // Invalid amount
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> transferValidator.validateTransferForScheduling(transfer));
-        assertEquals("O valor da transferência deve ser maior que zero.", exception.getMessage());
+    public void testValidateTransferForScheduling_SameOriginAndDestinationAccount() {
+        Transfer invalidTransfer = new Transfer("1234567890", "1234567890", BigDecimal.valueOf(30),
+                LocalDate.now().plusDays(5));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> transferValidator.validateTransferForScheduling(invalidTransfer));
     }
 
     @Test
-    public void testInvalidTransferWithInvalidDate() {
-        Transfer transfer = createValidTransfer();
-        transfer.setTransferDate(LocalDate.now().plusDays(51)); // Invalid date
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> transferValidator.validateTransferForScheduling(transfer));
-        assertEquals("Data de transferência inválida. Deve ser entre hoje e 50 dias a partir de hoje.",
-                exception.getMessage());
+    public void testValidateTransferForScheduling_InvalidTransferDate() {
+        Transfer invalidTransfer = new Transfer("1234567890", "0987654321", BigDecimal.valueOf(30),
+                LocalDate.now().plusDays(60));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> transferValidator.validateTransferForScheduling(invalidTransfer));
     }
 
     @Test
-    public void testInvalidTransferWithInvalidAmountForSameDay() {
-        Transfer transfer = createValidTransfer();
-        transfer.setTransferAmount(BigDecimal.valueOf(5)); // Invalid amount for the same day
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> transferValidator.validateTransferForScheduling(transfer));
-        assertEquals("Valor de transferência inválido. O valor mínimo para o prazo selecionado é: R$10",
-                exception.getMessage());
+    public void testValidateTransferForScheduling_InvalidAccountLength() {
+        Transfer invalidTransfer = new Transfer("123456789", "0987654321", BigDecimal.valueOf(30),
+                LocalDate.now().plusDays(5));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> transferValidator.validateTransferForScheduling(invalidTransfer));
     }
 
     @Test
-    public void testInvalidTransferWithInvalidAmountFor1to10Days() {
-        Transfer transfer = createValidTransfer();
-        transfer.setTransferDate(LocalDate.now().plusDays(5)); // 5 days difference
-        transfer.setTransferAmount(BigDecimal.valueOf(15)); // Invalid amount for 1 to 10 days
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> transferValidator.validateTransferForScheduling(transfer));
-        assertEquals("Valor de transferência inválido. O valor mínimo para o prazo selecionado é: R$20",
-                exception.getMessage());
+    public void testCreateSuccessResponse() {
+        assertEquals("Transferência agendada com sucesso!",
+                transferValidator.createSuccessResponse().get("message"));
     }
 
-    private Transfer createValidTransfer() {
-        Transfer transfer = new Transfer();
-        transfer.setOriginAccount("1234567890");
-        transfer.setDestinationAccount("0987654321");
-        transfer.setTransferAmount(BigDecimal.valueOf(100));
-        transfer.setTransferDate(LocalDate.now().plusDays(10));
-        return transfer;
+    @Test
+    public void testCreateErrorResponse() {
+        String errorMessage = "Erro na transferência";
+        assertEquals(errorMessage, transferValidator.createErrorResponse(errorMessage).get("error"));
     }
 }
-

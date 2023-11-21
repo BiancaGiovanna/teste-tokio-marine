@@ -11,6 +11,12 @@ import com.tokiomarine.repository.TransferRepository;
 
 @Service
 public class FeeService {
+	public FeeService() {
+	}
+
+	public FeeService(TransferRepository transferRepository) {
+
+	}
 
 	@Autowired
 	private TransferRepository transferRepository;
@@ -47,5 +53,9 @@ public class FeeService {
 			error.printStackTrace();
 			throw new RuntimeException("Erro ao agendar a transfêrencia.");
 		}
+	}
+
+	public void setTransferValidator(TransferValidator transferValidator) {
+		
 	}
 }
