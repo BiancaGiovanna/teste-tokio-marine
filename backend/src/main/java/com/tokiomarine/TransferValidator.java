@@ -2,6 +2,7 @@ package com.tokiomarine;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Map;
 
@@ -36,6 +37,19 @@ public class TransferValidator {
 				|| transfer.getTransferDate().isAfter(currentDate.plusDays(50))) {
 			throw new IllegalArgumentException(
 					"Data de transferência inválida. Deve ser entre hoje e 50 dias a partir de hoje.");
+		}
+		long daysDifference = ChronoUnit.DAYS.between(currentDate, transfer.getTransferDate());
+		BigDecimal minTransferAmount = BigDecimal.ZERO;
+
+		if (daysDifference == 0) {
+			minTransferAmount = new BigDecimal("10");
+		} else if (daysDifference >= 1 && daysDifference <= 10) {
+			minTransferAmount = new BigDecimal("20");
+		}
+
+		if (transfer.getTransferAmount().compareTo(minTransferAmount) < 0) {
+			throw new IllegalArgumentException(
+					"Valor de transferência inválido. O valor mínimo para o prazo selecionado é: R$" + minTransferAmount);
 		}
 	}
 

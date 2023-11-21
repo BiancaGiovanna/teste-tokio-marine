@@ -86,7 +86,7 @@ export class ScheduleTransfersComponent {
   showToast(message: string, type: 'success' | 'info' | 'warning' | 'error') {
     this.toast.show(message, '', {
       closeButton: true,
-      timeOut: 3000,
+      timeOut: 5000,
       positionClass: 'toast-top-right',
       enableHtml: true,
       progressBar: true,
