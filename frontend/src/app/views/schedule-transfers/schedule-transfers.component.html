@@ -21,7 +21,7 @@
           *ngIf="transferForm.get('originAccount')?.hasError('pattern')"
           class="text-danger"
         >
-          Digite exatamente 10 dígitos.
+          A conta deve ter 10 dígitos.
         </div>
       </div>
       <div class="mb-3">
@@ -40,7 +40,7 @@
           *ngIf="transferForm.get('destinationAccount')?.hasError('pattern')"
           class="text-danger"
         >
-          Digite exatamente 10 dígitos.
+          A conta deve ter 10 dígitos.
         </div>
       </div>
       <div *ngIf="transferForm.hasError('sameAccount')" class="text-danger">
@@ -58,10 +58,10 @@
           [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
         />
         <div
-          *ngIf="transferForm.hasError('transferAmount')"
+          *ngIf="transferForm.get('transferAmount')?.hasError('pattern')"
           class="text-danger"
         >
-          As contas de origem e destino não podem ser iguais.
+          O valor digitado é invalido
         </div>
       </div>
 
@@ -82,11 +82,13 @@
           }"
           placeholder="Escolha uma data"
         />
-        <div *ngIf="transferForm?.hasError('invalidDate')" class="text-danger">
-          As contas de origem e destino não podem ser iguais.
+        <div
+          *ngIf="transferForm.get('transferDate')?.hasError('invalidDate')"
+          class="text-danger"
+        >
+          A data deve estar entre hoje e 50 dias no futuro.
         </div>
       </div>
-
       <button class="mx-3 btn btn-danger" [routerLink]="'/'">Cancelar</button>
       <button type="submit" class="btn btn-success">
         Agendar Transferência

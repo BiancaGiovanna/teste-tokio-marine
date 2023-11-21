@@ -17,8 +17,8 @@ import { TableComponent } from './components/table/table.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { ToastrModule } from 'ngx-toastr';
 
 defineLocale('pt-br', ptBrLocale);
 @NgModule({
@@ -38,7 +38,7 @@ defineLocale('pt-br', ptBrLocale);
     CurrencyMaskModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule,
+    ToastrModule.forRoot(),
   ],
   providers: [TransferService],
   bootstrap: [AppComponent],

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TransferService } from '../../transfer.service';
+import { ToastrService } from 'ngx-toastr';
 import {
   AbstractControl,
   AbstractControlOptions,
@@ -7,6 +8,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-schedule-transfers',
@@ -20,7 +22,9 @@ export class ScheduleTransfersComponent {
 
   constructor(
     private fb: FormBuilder,
-    private transferService: TransferService
+    private transferService: TransferService,
+    private toast: ToastrService,
+    private router: Router
   ) {
     const formOptions: AbstractControlOptions = {
       validators: [this.accountValidator, this.dateValidator],
@@ -37,7 +41,11 @@ export class ScheduleTransfersComponent {
         ],
         transferAmount: [
           '',
-          [Validators.required, Validators.min(0), Validators.pattern(/^\d+$/)],
+          [
+            Validators.required,
+            Validators.min(0),
+            Validators.pattern(/^\d+(\.\d{1,2})?$/),
+          ],
         ],
 
         transferDate: [new Date(), [Validators.required]],
@@ -62,7 +70,6 @@ export class ScheduleTransfersComponent {
 
     return null;
   }
-
   dateValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const transferDate = new Date(control.value);
     const currentDate = new Date();
@@ -76,23 +83,39 @@ export class ScheduleTransfersComponent {
     return null;
   }
 
+  showToast(message: string, type: 'success' | 'info' | 'warning' | 'error') {
+    this.toast.show(message, '', {
+      closeButton: true,
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      enableHtml: true,
+      progressBar: true,
+      toastClass: `ngx-toastr ${type}`,
+    });
+  }
+
   scheduleTransfer(): void {
     if (this.transferForm.valid) {
       const transferData = this.transferForm.value;
 
       this.transferService.scheduleTransfer(transferData).subscribe({
         next: (response) => {
-          console.log('Transferência agendada com sucesso:', response);
+          const apiMessage = response.message;
+
+          this.showToast(apiMessage, 'success');
+          this.router.navigate(['/']);
         },
         error: (error) => {
-          console.error('Erro ao agendar transferência:', error);
+          let errorMessage = '';
+
+          if (error && error.error && error.error.error) {
+            errorMessage = error.error.error;
+          }
+          this.showToast(errorMessage, 'error');
         },
       });
     } else {
-      console.log(
-        'Formulário inválido. Verifique os campos.',
-        this.transferForm.value
-      );
+      this.showToast('Formulário inválido. Verifique os campos.', 'warning');
     }
   }
 }

@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^15.0.0",
+    "@angular/animations": "^15.2.10",
     "@angular/common": "^15.0.0",
     "@angular/compiler": "^15.0.0",
     "@angular/core": "^15.0.0",
@@ -24,6 +24,7 @@
     "ng2-currency-mask": "^13.0.3",
     "ngx-bootstrap": "^6.2.0",
     "ngx-mask": "^13.1.15",
+    "ngx-toastr": "^16.2.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
