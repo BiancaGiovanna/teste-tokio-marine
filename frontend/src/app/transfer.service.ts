@@ -13,4 +13,7 @@ export class TransferService {
   scheduleTransfer(data: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/schedule`, data);
   }
+  getTransferData(data: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/all`, data);
+  }
 }
