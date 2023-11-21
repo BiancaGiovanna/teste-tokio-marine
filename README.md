@@ -54,9 +54,19 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina:
         cd frontend
         ```
 
+    - Instale o Angular CLI
+
         ```bash
         npm install -g @angular/cli
         ```
+
+    - Instale todas as dependencias  
+
+        ```bash
+        npm install
+        ```
+
+    - Rode a aplicação
 
         ```bash
         ng serve
