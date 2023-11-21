@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TransferService } from '../../transfer.service';
 import {
   AbstractControl,
   AbstractControlOptions,
@@ -14,9 +15,13 @@ import {
 })
 export class ScheduleTransfersComponent {
   transferForm: FormGroup;
-  selectedDate: Date = new Date();
+  transferDate: Date = new Date();
+  transferAmount: string = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private transferService: TransferService
+  ) {
     const formOptions: AbstractControlOptions = {
       validators: [this.accountValidator, this.dateValidator],
     };
@@ -30,12 +35,12 @@ export class ScheduleTransfersComponent {
           '',
           [Validators.required, Validators.pattern(/^\d{10}$/)],
         ],
-        amount: [
+        transferAmount: [
           '',
           [Validators.required, Validators.min(0), Validators.pattern(/^\d+$/)],
         ],
 
-        selectedDate: [new Date(), [Validators.required]],
+        transferDate: [new Date(), [Validators.required]],
       },
       formOptions
     );
@@ -59,12 +64,12 @@ export class ScheduleTransfersComponent {
   }
 
   dateValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    const selectedDate = new Date(control.value);
+    const transferDate = new Date(control.value);
     const currentDate = new Date();
     const maxAllowedDate = new Date();
     maxAllowedDate.setDate(currentDate.getDate() + 49);
 
-    if (selectedDate < currentDate || selectedDate > maxAllowedDate) {
+    if (transferDate < currentDate || transferDate > maxAllowedDate) {
       return { invalidDate: true };
     }
 
@@ -73,7 +78,16 @@ export class ScheduleTransfersComponent {
 
   scheduleTransfer(): void {
     if (this.transferForm.valid) {
-      console.log('Dados válidos:', this.transferForm.value);
+      const transferData = this.transferForm.value;
+
+      this.transferService.scheduleTransfer(transferData).subscribe({
+        next: (response) => {
+          console.log('Transferência agendada com sucesso:', response);
+        },
+        error: (error) => {
+          console.error('Erro ao agendar transferência:', error);
+        },
+      });
     } else {
       console.log(
         'Formulário inválido. Verifique os campos.',
